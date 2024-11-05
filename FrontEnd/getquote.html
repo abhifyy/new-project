@@ -1,0 +1,249 @@
+<?php include('header.php'); ?>
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Get a Quote - Blue Ryno Fencing</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <style>
+            .button-group {
+                display: flex;
+                gap: 10px;
+                margin-top: 5px;
+            }
+            .button-group input[type="radio"] {
+                display: none;
+            }
+            .button-group label {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                background-color: #f0f0f0;
+                color: #444;
+                cursor: pointer;
+                transition: background-color 0.3s, color 0.3s;
+            }
+            .button-group input[type="radio"]:checked + label {
+                background-color: #51b1ea;
+                color: white;
+            }
+        </style>
+    </head>
+    <body class="no-sidebar is-preload">
+        <div id="page-wrapper">
+
+            <!-- Header -->
+                <div id="header-wrapper">
+                    <div class="container">
+
+                        <!-- Header -->
+                            <header id="header">
+                                <div class="inner">
+
+                                    <!-- Logo -->
+                                        <h1><a href="index.html" id="logo">Blue Ryno</a></h1>
+
+                                    <!-- Nav -->
+                                        <nav id="nav">
+                                            <ul>
+                                                <li><a href="index.html">Home</a></li>
+                                                <li class="current_page_item"><a href="getquote.html">Get a Quote</a></li>
+                                                <!-- Add other navigation items as needed -->
+                                            </ul>
+                                        </nav>
+
+                                </div>
+                            </header>
+
+                    </div>
+                </div>
+
+            <!-- Main Wrapper -->
+                <div id="main-wrapper">
+                    <div class="wrapper style2">
+                        <div class="inner">
+                            <div class="container">
+                                <div id="content">
+
+                                    <!-- Content -->
+                                        <article>
+                                            <header class="major">
+                                                <h2>Get a Quote</h2>
+                                            </header>
+
+                                            <form id="quoteForm">
+                                                <div class="row gtr-50">
+                                                    <div class="col-6 col-12-small">
+                                                        <input type="text" name="firstName" id="firstName" placeholder="First Name" required />
+                                                    </div>
+                                                    <div class="col-6 col-12-small">
+                                                        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required />
+                                                    </div>
+                                                    <div class="col-6 col-12-small">
+                                                        <input type="text" name="phone" id="phone" placeholder="Phone Number" required />
+                                                    </div>
+                                                    <div class="col-6 col-12-small">
+                                                        <input type="email" name="email" id="email" placeholder="Email" required />
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <input type="text" name="address1" id="address1" placeholder="Address 1" required />
+													</div>   
+                                                    <div class="col-4 col-12-small">
+                                                        <input type="text" name="city" id="city" placeholder="City" required />
+                                                    </div>
+                                                    <div class="col-4 col-12-small">
+                                                        <input type="text" name="state" id="state" placeholder="State" required />
+                                                    </div>
+                                                    <div class="col-4 col-12-small">
+                                                        <input type="text" name="zipCode" id="zipCode" placeholder="Zip Code" required />
+                                                    </div>
+                                                    <div class="col-6 col-12-small">
+                                                        <label>Do you have HOA approval?</label>
+                                                        <div class="button-group">
+                                                            <input type="radio" id="hoa-yes" name="hoaApproval" value="Yes" required>
+                                                            <label for="hoa-yes">Yes</label>
+                                                            <input type="radio" id="hoa-no" name="hoaApproval" value="No" required>
+                                                            <label for="hoa-no">No</label>
+                                                            <input type="radio" id="hoa-na" name="hoaApproval" value="N/A" required>
+                                                            <label for="hoa-na">N/A</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6 col-12-small">
+                                                        <label>Do you have City approval?</label>
+                                                        <div class="button-group">
+                                                            <input type="radio" id="city-yes" name="cityApproval" value="Yes" required>
+                                                            <label for="city-yes">Yes</label>
+                                                            <input type="radio" id="city-no" name="cityApproval" value="No" required>
+                                                            <label for="city-no">No</label>
+                                                            <input type="radio" id="city-na" name="cityApproval" value="N/A" required>
+                                                            <label for="city-na">N/A</label>
+                                                        </div>
+                                                    </div>
+													<div class="col-12">
+														<div class="row gtr-50">
+															<div class="col-4 col-12-small">
+																<input type="file" name="photos" id="photos" multiple required />
+																<label for="photos">Upload Photos of the Plot</label>
+															</div>
+															<div class="col-4 col-12-small">
+																<select name="material" id="material" required>
+																	<option value="">- Choose the Type of Material -</option>
+																	<option value="wood">Wood</option>
+																	<option value="vinyl">Vinyl</option>
+																	<option value="metal">Metal</option>
+																	<option value="chainLink">Chain Link</option>
+																	<option value="brick">Brick</option>
+																	<option value="barbed">Barbed</option>
+																</select>
+															</div>
+															<div class="col-4 col-12-small">
+																<input type="number" name="fenceLength" id="fenceLength" placeholder="Approximate Length of the Fence (in meters)" min="1" step="1" required />
+															</div>
+														</div>
+													</div>
+													<div class="col-12" style="text-align: center;">
+														<ul class="actions" style="display: inline-block;">
+															<li><input type="button" class="button icon solid fa-envelope" value="Ask for a Quote" onclick="submitForm()" /></li>
+															<li><input type="reset" class="button alt icon solid fa-undo" value="Reset Form" /></li>
+														</ul>
+													</div>
+                                                </div>
+                                            </form>
+
+                                        </article>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Footer Wrapper -->
+            <div id="footer-wrapper">
+                <footer id="footer" class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <!-- Get in Touch -->
+                            <section id="get-in-touch">
+                                <h2>Get in touch</h2>
+                                <div>
+                                    <div class="row">
+                                        <div class="col-6 col-12-small">
+                                            <dl class="contact">
+                                                <dt><a href="https://www.facebook.com/p/Blue-rhino-fence-100040198507674/">Facebook</a></dt>
+                                                <br />
+                                                <br />
+                                                <dt>Email: </dt>
+                                                <dd><a href="#">Bluerhinofence@icloud.com</a></dd>
+                                            </dl>
+                                        </div>
+                                        <div class="col-6 col-12-small">
+                                            <dl class="contact">
+                                                <dt>Address</dt>
+                                                <dd>
+                                                    Houston, TX<br />
+                                                    USA
+                                                </dd>
+                                                <dt>Phone</dt>
+                                                <dd>(281) 914-0946</dd>
+                                                <dt>Hours of Operation</dt>
+                                                <dd>Monday - Saturday: 9 AM - 6 PM</dd>
+                                            </dl>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="copyright">
+                                <ul class="menu">
+                                    <li>&copy; Untitled. All rights reserved</li>
+                                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                    <li><a href="https://www.freepik.com/free-photo/vertical-closeup-shot-metal-fence-sidewalk_16224746.htm#query=vertical%20fence&position=2&from_view=keyword&track=ais_hybrid&uuid=10c2de75-fd8b-49ec-8595-4f81ba639c61">Image by Wirestock</a> on FreePik</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+</div>
+
+    </div>
+
+    <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.dropotron.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script>
+            function submitForm() {
+                const form = document.getElementById('quoteForm');
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+
+                fetch('/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(response => response.text())
+                .then(result => {
+                    alert(result);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        </script>
+</body>
+</html>

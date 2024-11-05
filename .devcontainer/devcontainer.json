@@ -1,0 +1,11 @@
+{
+  "name": "My Project",
+  "image": "mcr.microsoft.com/vscode/devcontainers/javascript-node:16",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ritwickdey.LiveServer",
+    "eg2.vscode-npm-script"
+  ],
+  "postCreateCommand": "npm install"
+}

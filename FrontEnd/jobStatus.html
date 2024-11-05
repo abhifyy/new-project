@@ -1,0 +1,187 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Check Job Status - Blue Rhyno Fencing</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<style>
+			#jobInfo {
+				display: none;
+				background-color: #f5f5f5;
+				border: 1px solid #ddd;
+				border-radius: 5px;
+				padding: 20px;
+				margin-top: 20px;
+				max-width: 600px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			#jobInfo h3 {
+				margin-top: 0;
+			}
+			#jobInfo p {
+				margin-bottom: 10px;
+			}
+		</style>
+	</head>
+	<body class="no-sidebar is-preload">
+		<div id="page-wrapper">
+
+			<!-- Header -->
+				<div id="header-wrapper">
+					<div class="container">
+
+						<!-- Header -->
+							<header id="header">
+								<div class="inner">
+
+									<!-- Logo -->
+										<h1><a href="index.html" id="logo">Blue Rhyno</a></h1>
+
+									<!-- Nav -->
+										<nav id="nav">
+											<ul>
+												<li><a href="index.html">Home</a></li>
+												<li><a href="getquote.html">Get a Quote</a></li>
+												<li class="current_page_item"><a href="check_job.html">Check Job Status</a></li>
+												<!-- Add other navigation items as needed -->
+											</ul>
+										</nav>
+
+								</div>
+							</header>
+
+					</div>
+				</div>
+
+			<!-- Main Wrapper -->
+				<div id="main-wrapper">
+					<div class="wrapper style2">
+						<div class="inner">
+							<div class="container">
+								<div id="content">
+
+									<!-- Content -->
+										<article>
+											<header class="major">
+												<h2>Check Job Status</h2>
+											</header>
+
+											<form id="jobStatusForm">
+												<div class="row gtr-50">
+													<div class="col-6 col-12-small">
+														<input type="text" name="quoteRef" id="quoteRef" placeholder="Quote Reference Number" required />
+													</div>
+													<div class="col-6 col-12-small">
+														<input type="email" name="email" id="email" placeholder="Email" required />
+													</div>
+													<div class="col-12">
+														<ul class="actions">
+															<li><input type="submit" class="button icon solid fa-search" value="Check Status" /></li>
+														</ul>
+													</div>
+												</div>
+											</form>
+
+											<div id="jobInfo">
+												<h3>Job Information</h3>
+												<p><strong>Customer Name:</strong> <span id="customerName"></span></p>
+												<p><strong>Job Address:</strong> <span id="jobAddress"></span></p>
+												<p><strong>Type of Job:</strong> <span id="jobType"></span></p>
+												<p><strong>Status:</strong> <span id="jobStatus"></span></p>
+											</div>
+
+										</article>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			<!-- Footer Wrapper -->
+				<div id="footer-wrapper">
+					<footer id="footer" class="container">
+						<!-- Footer content (same as in your provided code) -->
+                        <div class="row">
+                            <div class="col-12">
+                                <!-- Get in Touch -->
+                                <section id="get-in-touch">
+                                    <h2>Get in touch</h2>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-6 col-12-small">
+                                                <dl class="contact">
+                                                    <dt><a  href="https://www.facebook.com/p/Blue-rhino-fence-100040198507674/">Facebook</a></dt>
+                                                    <br />
+                                                    <br />
+                                                    <dt>Email: </dt>
+                                                    <dd><a href="#">Bluerhinofence@icloud.com</a></dd>
+                                                </dl>
+                                            </div>
+                                            <div class="col-6 col-12-small">
+                                                <dl class="contact">
+                                                    <dt>Address</dt>
+                                                    <dd>
+                                                        Houston, TX<br />
+                                                        USA
+                                                    </dd>
+                                                    <dt>Phone</dt>
+                                                    <dd>(281) 914-0946</dd>
+                                                </dl>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <div id="copyright">
+                                    <ul class="menu">
+                                        <li>&copy; Untitled. All rights reserved</li>
+                                        <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                        <li><a href="https://www.freepik.com/free-photo/vertical-closeup-shot-metal-fence-sidewalk_16224746.htm#query=vertical%20fence&position=2&from_view=keyword&track=ais_hybrid&uuid=10c2de75-fd8b-49ec-8595-4f81ba639c61">Image by wirestock</a> on Freepik</li>
+                                    </ul>
+                                </div>
+                                <div id="zero-four">
+                                    <h2><strong>ZeroFour</strong> by HTML5 UP</h2>
+                                    <p>Hi! This is <strong>ZeroFour</strong>, a free, fully responsive HTML5 site
+                                    template by <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a>.
+                                    It's <a href="http://html5up.net/license/">Creative Commons Attribution</a>
+                                    licensed so use it for any personal or commercial project (just credit us
+                                    for the design!).</p>
+                                </div>
+                            </div>
+                        </div>
+					</footer>
+				</div>
+
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.dropotron.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+			<script src="/path/to/your/jobStatus.js"></script>
+			<script>
+				$(document).ready(function() {
+					$("#jobStatusForm").submit(function(e) {
+						e.preventDefault();
+						// Here you would typically make an AJAX call to your server to fetch job information
+						// For this example, we'll just show dummy data
+						$("#customerName").text("John Doe");
+						$("#jobAddress").text("123 Main St, Anytown, USA");
+						$("#jobType").text("Wood Fence Installation");
+						$("#jobStatus").text("Active");
+						$("#jobInfo").show();
+					});
+				});
+			</script>
+
+	</body>
+</html>

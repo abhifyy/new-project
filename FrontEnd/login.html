@@ -1,0 +1,157 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <title>Login - Blue Ryno Fencing</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 15px;
+            position: relative; /* Added for positioning the eye icon */
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input[type="text"],
+        .input-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 10px;
+            top: 35%;
+            cursor: pointer;
+            font-size: 20px; /* Increase icon size */
+        }
+        .login-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .login-btn:hover {
+            background-color: #4297d3;
+        }
+        .error-message {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .links {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .links a {
+            color: #51b1ea;
+            text-decoration: none;
+        }
+        .links a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-wrapper">
+        <div class="container">
+            <!-- Header -->
+            <header id="header">
+                <div class="inner">
+                    <h1><a href="index.html" id="logo">Blue Ryno</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+    </div>
+    <div class="login-container">
+        <h2>Admin Login</h2>
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required />
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required />
+                <span class="eye-icon" id="togglePassword" onclick="togglePassword()">
+                    👁️ <!-- Eye icon for visible -->
+                </span>
+            </div>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+        <div id="error-message" class="error-message"></div>
+    </div>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Send login data to the server
+            const response = await fetch("http://localhost:3001/passwords/admin", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                window.location.href = "admin_dashboard.html"; // Redirect on successful login
+            } else {
+                document.getElementById("error-message").innerText = result.message;
+            }
+        });
+
+        // Function to toggle password visibility
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const eyeIcon = document.getElementById("togglePassword");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.textContent = "🚫"; // Change icon to indicate visible
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.textContent = "👁️"; // Change icon back to hidden
+            }
+        }
+    </script>
+</body>
+</html>

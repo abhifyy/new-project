@@ -1,0 +1,10 @@
+{
+    "cSpell.words": [
+        "Ryno"
+    ],
+    "python.testing.pytestArgs": [
+        "FrontEnd"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}

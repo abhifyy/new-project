@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Submit Customer Review</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <style>
+            .rating {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: center;
+            }
+            .rating input {
+                display: none;
+            }
+            .rating label {
+                font-size: 2em;
+                color: #FFD700;
+                cursor: pointer;
+            }
+            .rating label:hover,
+            .rating label:hover ~ label,
+            .rating input:checked ~ label {
+                color: #FFED85;
+            }
+        </style>
+    </head>
+    <body class="right-sidebar is-preload">
+        <div id="page-wrapper">
+
+            <!-- Header Wrapper -->
+            <div id="header-wrapper">
+            <div class="container">
+
+            <!-- Header -->
+            <header id="header">
+            <div class="inner">
+
+                <!-- Logo -->
+                <h1><a href="index.html" id="Homepage">Blue Ryno</a></h1>
+
+                <!-- Nav -->
+                <nav id="nav">
+                <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="left-sidebar.html">About Us</a></li>
+                <li><a href="right-sidebar.html">Fence Options</a></li>
+                <li><a href="no-sidebar.html">Photos</a></li>
+                <li><a href="faq.html">F.A.Q</a></li>
+                <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                <li class="current_page_item"><a href="reviews.html">Submit Review</a></li>
+                </ul>
+                </nav>
+
+            </div>
+            </header>
+
+            </div>
+            </div>
+
+            <!-- Main Wrapper -->
+            <div id="main-wrapper">
+            <div class="container">
+            <div class="row gtr-200">
+            <div class="col-12">
+
+                <!-- Content -->
+                <div id="content">
+                <section class="box">
+                <header>
+                <h2>Submit Customer Review</h2>
+                </header>
+                <div class="content">
+                <form action="submit_review.php" method="post">
+                    <div class="row gtr-60">
+                    <!-- <div class="col-6 col-12-small">
+                    <input type="text" name="feedback_id" id="feedback_id" placeholder="Feedback ID" required />
+                    </div>
+                    <div class="col-6 col-12-small">
+                    <input type="text" name="customer_id" id="customer_id" placeholder="Customer ID" required />
+                    </div> -->
+                    <div class="col-6 col-12-small">
+                        <input type="text" name="quote_id" id="quote_id" placeholder="Quote" required />
+                    </div>
+                    <div class="col-6 col-12-small">
+                        <input type="date" name="feedback_date" id="feedback_date" required />
+                    </div>
+                    <div class="col-12">
+                        <textarea name="comments" id="comments" placeholder="Your Comments" rows="6" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="rating">Rating:</label>
+                        <div class="rating" style="display: inline-flex;">
+                            <input type="radio" name="rating" id="star5" value="5" required /><label for="star5" title="5 stars">&#9733;</label>
+                            <input type="radio" name="rating" id="star4" value="4" required /><label for="star4" title="4 stars">&#9733;</label>
+                            <input type="radio" name="rating" id="star3" value="3" required /><label for="star3" title="3 stars">&#9733;</label>
+                            <input type="radio" name="rating" id="star2" value="2" required /><label for="star2" title="2 stars">&#9733;</label>
+                            <input type="radio" name="rating" id="star1" value="1" required /><label for="star1" title="1 star">&#9733;</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <ul class="actions">
+                            <li><input type="submit" value="Submit Review" class="primary" /></li>
+                        </ul>
+                    </div>
+                    </div>
+                </form>
+                </div>
+                </section>
+                </div>
+
+            </div>
+            </div>
+            </div>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+
+    <!-- Footer Wrapper -->
+    <div id="footer-wrapper">
+        <footer id="footer" class="container">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Get in Touch -->
+                    <section id="get-in-touch">
+                        <h2>Get in touch</h2>
+                        <div>
+                            <div class="row">
+                                <div class="col-6 col-12-small">
+                                    <dl class="contact">
+                                        <dt><a href="https://www.facebook.com/p/Blue-rhino-fence-100040198507674/">Facebook</a></dt>
+                                        <br />
+                                        <br />
+                                        <dt>Email: </dt>
+                                        <dd><a href="#">Bluerhinofence@icloud.com</a></dd>
+                                    </dl>
+                                </div>
+                                <div class="col-6 col-12-small">
+                                    <dl class="contact">
+                                        <dt>Address</dt>
+                                        <dd>
+                                            Houston, TX<br />
+                                            USA
+                                        </dd>
+                                        <dt>Phone</dt>
+                                        <dd>(281) 914-0946</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="copyright">
+                        <ul class="menu">
+                            <li>&copy; Untitled. All rights reserved</li>
+                            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                            <li><a href="https://www.freepik.com/free-photo/vertical-closeup-shot-metal-fence-sidewalk_16224746.htm#query=vertical%20fence&position=2&from_view=keyword&track=ais_hybrid&uuid=10c2de75-fd8b-49ec-8595-4f81ba639c61">Image by Wirestock</a> on Freepik</li> <!-- spell-checker: disable-line -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+        </div>
+    </body>
+</html>

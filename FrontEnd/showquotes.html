@@ -1,0 +1,279 @@
+<?php include('header.php'); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>All Quotes - Blue Ryno</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        td {
+            background-color: white;
+            cursor: pointer;
+        }
+        .selected-row {
+            background-color: #e0f7fa; /* Light blue highlight */
+        }
+        .radio-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            height: 15px; /* Adjust height as necessary */
+            width: 15px; /* Adjust width as necessary */
+            border-radius: 50%;
+            border: 2px solid #00070a; /* Border color */
+            position: relative;
+            margin-right: 10px; /* Spacing between dot and quote ID */
+        }
+        .radio-button.selected::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 10px; /* Size of the blue dot */
+            width: 10px; /* Size of the blue dot */
+            border-radius: 50%;
+            background-color: #2a83b9; /* Dot color */
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination button {
+            padding: 10px;
+            margin: 0 5px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pagination button:hover {
+            background-color: #4297d3;
+        }
+        .print-btn {
+            position: absolute;
+            right: 5%;
+            top: 5%;
+            padding: 10px 20px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #4297d3;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            /* Hide everything except the table */
+            body * {
+                visibility: hidden;
+            }
+            table, table * {
+                visibility: visible;
+            }
+            table {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        /* Style for quote number */
+        .quote-number {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-wrapper">
+        <div class="container">
+            <!-- Header -->
+            <header id="header">
+                <div class="inner">
+                    <h1><a href="index.html" id="logo">Blue Ryno</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="admin_dashboard.html">Back</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+    </div>
+    
+    <div class="container">
+        <h2>New quotes</h2>
+        <button class="print-btn" onclick="window.print()">Print quotes</button> 
+        <button id="update-quote-btn" onclick="redirectToUpdatePage()" disabled>Update quote</button>
+    
+        <table>
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th onclick="sortTable(0)">quote ID</th>
+                    <th onclick="sortTable(2)">Customer Name</th>
+                    <th onclick="sortTable(3)">Address</th>
+                    <th onclick="sortTable(4)">Quote Date</th>
+                    <th onclick="sortTable(6)">Total Amount</th>
+                    <th onclick="sortTable(8)">Status</th>
+                </tr>
+            </thead>
+            <tbody id="quote-table-body">
+                <!-- quotes will be dynamically populated here -->
+            </tbody>
+        </table>
+    
+        <div class="pagination" id="pagination-controls">
+            <!-- Pagination buttons will be dynamically populated here -->
+        </div>
+    </div>
+    
+    <script>
+        let quotes = [];
+        let currentPage = 1;
+        const rowsPerPage = 5;
+        let selectedquoteId = null;
+    
+        // Fetch quote data from backend
+        fetch('http://localhost:3001/quotes/')
+            .then(response => response.json())
+            .then(data => {
+                quotes = data;
+                displayquotes();
+                setupPagination();
+            })
+            .catch(error => console.error('Error fetching quotes:', error));
+    
+        function displayquotes() {
+            const tableBody = document.getElementById('quote-table-body');
+            tableBody.innerHTML = '';
+    
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedquotes = quotes.slice(start, end);
+    
+            paginatedquotes.forEach(quote => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="radio-button" onclick="selectquote(${quote.QuoteID}, this)"></div>
+                    </td>
+                    <td class="quote-number" onclick="showquoteDetails(${quote.QuoteID})">${quote.QuoteID}</td>
+                    <td>${quote.CustomerName}</td>
+                    <td>${quote.Address}</td>
+                    <td>${new Date(quote.QuoteDate).toLocaleDateString()}</td>
+                    <td>${quote.TotalAmount}</td>
+                    <td>${quote.Status}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    
+
+function selectquote(quoteId, element) {
+    // Clear previous selections
+    document.querySelectorAll('.selected-row').forEach(row => row.classList.remove('selected-row'));
+    document.querySelectorAll('.radio-button').forEach(button => button.classList.remove('selected'));
+
+    // Highlight the selected row and radio button
+    element.parentElement.parentElement.classList.add('selected-row');
+    element.classList.add('selected');
+
+    // Store selected quote ID and enable the Update button
+    selectedquoteId = quoteId;
+    document.getElementById("update-quote-btn").disabled = false;
+}
+
+    
+        function redirectToUpdatePage() {
+            if (selectedquoteId) {
+                window.location.href = `update_quote.html?quoteId=${selectedquoteId}`;
+            }
+        }
+    
+        function setupPagination() {
+            const pagination = document.getElementById('pagination-controls');
+            pagination.innerHTML = '';
+    
+            const totalPages = Math.ceil(quotes.length / rowsPerPage);
+            const rangeStart = (currentPage - 1) * rowsPerPage + 1;
+            const rangeEnd = Math.min(currentPage * rowsPerPage, quotes.length);
+    
+            pagination.innerHTML = `
+                <button onclick="prevPage()"> &lt; </button>
+                <span>${rangeStart}-${rangeEnd}</span>
+                <button onclick="nextPage()"> &gt; </button>
+            `;
+        }
+    
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayquotes();
+                setupPagination();
+            }
+        }
+    
+        function nextPage() {
+            const totalPages = Math.ceil(quotes.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayquotes();
+                setupPagination();
+            }
+        }
+    
+        function sortTable(columnIndex) {
+            quotes.sort((a, b) => {
+                const aValue = Object.values(a)[columnIndex];
+                const bValue = Object.values(b)[columnIndex];
+                return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+            });
+            displayquotes();
+        }
+    
+        function showquoteDetails(quoteId) {
+            // Redirect to a details page or show a modal with quote details
+            window.location.href = `quote.html?quoteId=${quoteId}`;
+        }
+    </script>
+    </body>
+    </html>

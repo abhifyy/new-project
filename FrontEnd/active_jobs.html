@@ -1,0 +1,372 @@
+<?php include('header.php'); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>New Invoices - Blue Ryno</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        td {
+            background-color: white;
+            cursor: pointer;
+        }
+        .selected-row {
+            background-color: #e0f7fa; /* Light blue highlight */
+        }
+        .radio-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            height: 15px; /* Adjust height as necessary */
+            width: 15px; /* Adjust width as necessary */
+            border-radius: 50%;
+            border: 2px solid #00070a; /* Border color */
+            position: relative;
+            margin-right: 10px; /* Spacing between dot and invoice ID */
+        }
+        .radio-button.selected::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 10px; /* Size of the blue dot */
+            width: 10px; /* Size of the blue dot */
+            border-radius: 50%;
+            background-color: #2a83b9; /* Dot color */
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination button {
+            padding: 10px;
+            margin: 0 5px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .pagination button:hover {
+            background-color: #4297d3;
+        }
+        .print-btn {
+            position: absolute;
+            right: 5%;
+            top: 5%;
+            padding: 10px 20px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .print-btn:hover {
+            background-color: #4297d3;
+        }
+        
+        /* Print-specific styles */
+        @media print {
+            /* Hide everything except the table */
+            body * {
+                visibility: hidden;
+            }
+            table, table * {
+                visibility: visible;
+            }
+            table {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+            }
+        }
+
+        /* Style for invoice number */
+        .invoice-number {
+            color: blue;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header-wrapper">
+        <div class="container">
+            <!-- Include Company Logo (hidden by default) -->
+            <img id="company-logo" src="images/BlueRynoLogo.png" alt="Blue Ryno Logo" class="print-logo" style="width:100%; height:auto; max-width: 150px;">
+            <!-- Header -->
+            <header id="header">
+                <div class="inner">
+                    <h1><a href="index.html" id="logo">Blue Ryno</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="admin_dashboard.html">Back</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+    </div>
+    <style>
+        /* Hide logo by default */
+        .print-logo {
+            display: none;
+        }
+    
+        /* Show logo only when printing */
+        @media print {
+            .print-logo {
+                display: block;
+            }
+        }
+    </style>
+    <div class="container">
+        <h2>New Invoices</h2>
+        <button class="print-btn" onclick="printInvoice()">Print Invoices</button>
+        <button id="update-invoice-btn" onclick="redirectToUpdatePage()" disabled>Update Invoice</button>
+    
+        <table id="invoice-table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th onclick="sortTable(0)">Invoice ID</th>
+                    <th onclick="sortTable(1)">Quote ID</th>
+                    <th onclick="sortTable(2)">Customer Name</th>
+                    <th onclick="sortTable(3)">Address</th>
+                    <th onclick="sortTable(4)">Invoice Date</th>
+                    <th onclick="sortTable(5)">Due Date</th>
+                    <th onclick="sortTable(6)">Estimated Amount</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="invoice-table-body">
+                <!-- Invoices will be dynamically populated here -->
+            </tbody>
+        </table>
+    
+        <div class="pagination" id="pagination-controls">
+            <!-- Pagination buttons will be dynamically populated here -->
+        </div>
+    </div>
+    
+    <script>
+        let invoices = [];
+        let currentPage = 1;
+        const rowsPerPage = 5;
+        let selectedInvoiceId = null;
+    
+        // Fetch invoice data from backend
+        fetch('http://localhost:3001/invoices/new')
+            .then(response => response.json())
+            .then(data => {
+                invoices = data;
+                displayInvoices();
+                setupPagination();
+            })
+            .catch(error => console.error('Error fetching invoices:', error));
+    
+            
+            function displayInvoices() {
+            const tableBody = document.getElementById('invoice-table-body');
+            tableBody.innerHTML = '';
+    
+            const start = (currentPage - 1) * rowsPerPage;
+            const end = start + rowsPerPage;
+            const paginatedInvoices = invoices.slice(start, end);
+    
+            paginatedInvoices.forEach(invoice => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>
+                        <div class="radio-button" onclick="selectInvoice(${invoice.InvoiceID}, this)"></div>
+                    </td>
+                    <td class="invoice-number" onclick="showInvoiceDetails(${invoice.InvoiceID})">${invoice.InvoiceID}</td>
+                    <td>${invoice.QuoteID}</td>
+                    <td>${invoice.CustomerName}</td>
+                    <td>${invoice.Address}</td>
+                    <td>${new Date(invoice.InvoiceDate).toLocaleDateString()}</td>
+                    <td>${new Date(invoice.DueDate).toLocaleDateString()}</td>
+                    <td>${invoice.TotalAmount}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+    
+        function printInvoice() {
+            // Make sure to define a specific section in your HTML to capture the invoice details.
+            // For example, use a div with id="invoice-details" to hold the invoice information.
+            const invoiceContent = document.getElementById('invoice-table').outerHTML; // Use the table instead
+            const logoContent = document.getElementById('company-logo').outerHTML;
+        
+            // Company details to include in print
+            const companyInfo = `
+                <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                    ${logoContent}
+                    <div style="margin-left: 20px;">
+                        <h1 style="margin: 0;">Blue Ryno Fencing</h1>
+                        <p style="margin: 0;">Houston, TX</p>
+                        <p style="margin: 0;">USA</p>
+                        <p style="margin: 0;">Phone: (281) 914-0946</p>
+                        <p style="margin: 0;">Email: Bluerhinofence@icloud.com</p>
+                    </div>
+                </div>
+            `;
+        
+            const thankYouMessage = `
+                <div style="text-align: center; margin-top: 20px;">
+                    <p>Thank you for your business!</p>
+                </div>
+            `;
+        
+            // Open a new window for printing
+            const printWindow = window.open('', '', 'height=600,width=800');
+        
+            // Write content to the new window
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Print Invoice</title>
+                    <style>
+                        body {
+                            font-family: Arial, sans-serif;
+                        }
+                        img {
+                            max-width: 100%;
+                            height: auto;
+                        }
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+                        th, td {
+                            border: 1px solid #ddd;
+                            padding: 8px;
+                            text-align: left;
+                        }
+                    </style>
+                </head>
+                <body>
+                    ${companyInfo}
+                    <h2>Invoice Details</h2>
+                    ${invoiceContent} <!-- Include the invoice table directly -->
+                    ${thankYouMessage}
+                </body>
+                </html>
+            `);
+        
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print(); // Open print dialog
+        
+            // Close the print window after printing
+            printWindow.onafterprint = function() {
+                printWindow.close();
+            };
+        }
+        
+        
+
+            
+function selectInvoice(invoiceId, element) {
+    // Clear previous selections
+    document.querySelectorAll('.selected-row').forEach(row => row.classList.remove('selected-row'));
+    document.querySelectorAll('.radio-button').forEach(button => button.classList.remove('selected'));
+
+    // Highlight the selected row and radio button
+    element.parentElement.parentElement.classList.add('selected-row');
+    element.classList.add('selected');
+
+    // Store selected invoice ID and enable the Update button
+    selectedInvoiceId = invoiceId;
+    document.getElementById("update-invoice-btn").disabled = false;
+}
+
+    
+        function redirectToUpdatePage() {
+            if (selectedInvoiceId) {
+                window.location.href = `update_invoice.html?invoiceId=${selectedInvoiceId}`;
+            }
+        }
+    
+        function setupPagination() {
+            const pagination = document.getElementById('pagination-controls');
+            pagination.innerHTML = '';
+    
+            const totalPages = Math.ceil(invoices.length / rowsPerPage);
+            const rangeStart = (currentPage - 1) * rowsPerPage + 1;
+            const rangeEnd = Math.min(currentPage * rowsPerPage, invoices.length);
+    
+            pagination.innerHTML = `
+                <button onclick="prevPage()"> &lt; </button>
+                <span>${rangeStart}-${rangeEnd}</span>
+                <button onclick="nextPage()"> &gt; </button>
+            `;
+        }
+    
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                displayInvoices();
+                setupPagination();
+            }
+        }
+    
+        function nextPage() {
+            const totalPages = Math.ceil(invoices.length / rowsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayInvoices();
+                setupPagination();
+            }
+        }
+    
+        function sortTable(columnIndex) {
+            invoices.sort((a, b) => {
+                const aValue = Object.values(a)[columnIndex];
+                const bValue = Object.values(b)[columnIndex];
+                return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+            });
+            displayInvoices();
+        }
+    
+        function showInvoiceDetails(invoiceId) {
+            // Redirect to a details page or show a modal with invoice details
+            window.location.href = `invoice.html?invoiceId=${invoiceId}`;
+        }
+       
+    </script>
+    </body>
+    </html>

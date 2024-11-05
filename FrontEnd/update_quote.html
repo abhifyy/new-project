@@ -1,0 +1,164 @@
+<?php include('header.php'); ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Update Quote - Blue Ryno</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            padding-top: 50px;
+        }
+        .invoice-section, .form-section {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 48%;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #51b1ea;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4297d3;
+        }
+        .container1 {
+            width: 80%;
+            margin: 0 auto;
+            padding-top: 50px;
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div id="header-wrapper">
+        <div class="container">
+            <header id="header">
+                <div class="inner">
+                    <h1><a href="index.html" id="logo">Blue Ryno</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="showquotes.html">Back</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+    </div>
+    
+    <div class="container1">
+        <div class="invoice-section" id="invoice-details">
+            <h2>Quote Details</h2>
+            <!-- Invoice details will be dynamically populated here -->
+        </div>
+        
+        <div class="form-section">
+            <h2>Update Quote</h2>
+            <form id="update-quote-form">
+                <label for="due-date">Due Date:</label>
+                <input type="date" id="due-date" required />
+
+                <label for="total-amount">Total Amount:</label>
+                <input type="number" id="total-amount" required />
+
+                <label for="status">Status:</label>
+                <select id="status" required>
+                    <option value="Pending">Pending</option>
+                    <option value="Waiting For Customer Approval">Waiting For Customer Approval</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Completed">Completed</option>
+                </select>
+
+                <button type="submit">Update Quote</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function getQueryParam(param) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(param);
+        }
+
+        // Get the QuoteID from the URL
+        const quoteId = getQueryParam('quoteId'); 
+        fetch(`http://localhost:3001/quotes/${quoteId}`)
+            .then(response => response.json())
+            .then(quote => {
+                const invoiceDetails = document.getElementById('invoice-details'); // Changed this line to target the correct element
+                invoiceDetails.innerHTML = ` 
+                    <p><strong>Quote ID:</strong> ${quote.QuoteID}</p>
+                    <p><strong>Quote Date:</strong> ${new Date(quote.QuoteDate).toLocaleDateString()}</p>
+                    <p><strong>Total Amount:</strong> ${quote.TotalAmount}</p>
+                    <p><strong>Status:</strong> ${quote.Status}</p>
+                    <p><strong>Customer Name:</strong> ${quote.CustomerName}</p>
+                    <p><strong>Customer Address:</strong> ${quote.Address}</p>
+                    <p><strong>Email Sent:</strong> ${quote.EmailSent ? 'Yes' : 'No'}</p>
+                    <p><strong>Completed:</strong> ${quote.Completed ? 'Yes' : 'No'}</p>
+                    <p><strong>Material Type:</strong> ${quote.MaterialType || 'N/A'}</p>
+                    <p><strong>Fence Length:</strong> ${quote.FenceLength || 'N/A'}</p>
+                    <p><strong>HOA Approval:</strong> ${quote.HOAApproval || 'N/A'}</p>
+                    <p><strong>City Approval:</strong> ${quote.CityApproval || 'N/A'}</p>
+                    <p><strong>Photo Paths:</strong> ${quote.PhotoPaths || 'N/A'}</p>
+                `;
+            })
+            .catch(error => {
+                console.error('Error fetching quote:', error);
+            });
+
+        document.getElementById('update-quote-form').addEventListener('submit', function(event) { // Changed to 'update-quote-form'
+            event.preventDefault();
+
+            const updatedQuote = {
+                DueDate: document.getElementById('due-date').value,
+                TotalAmount: document.getElementById('total-amount').value, // Adjusted the property name to match your API
+                Status: document.getElementById('status').value // Changed from 'PaymentStatus' to 'Status'
+            };
+
+            fetch(`http://localhost:3001/quotes/${quoteId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedQuote)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Quote updated successfully!');
+                    window.location.href = 'showquotes.html'; // Redirect to active jobs page
+                } else {
+                    alert('Error updating quote. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating quote', error);
+            });
+    });
+    </script>
+</body>
+</html>
