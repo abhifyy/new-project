@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Check Job Status - Blue Rhyno Fencing</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <link rel="stylesheet" href="assets/css/main.css" />
+        <style>
+            #jobInfo {
+                display: none;
+                background-color: #f5f5f5;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 20px;
+                margin-top: 20px;
+                max-width: 600px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            #jobInfo h3 {
+                margin-top: 0;
+            }
+            #jobInfo p {
+                margin-bottom: 10px;
+            }
+        </style>
+    </head>
+    <body class="no-sidebar is-preload">
+        <div id="page-wrapper">
+
+            <!-- Header -->
+            <div id="header-wrapper">
+                <div class="container">
+                    <header id="header">
+                        <div class="inner">
+                            <h1><a href="index.html" id="logo">Blue Rhyno</a></h1>
+                            <nav id="nav">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="getquote.html">Get a Quote</a></li>
+                                    <li class="current_page_item"><a href="check_job.html">Check Job Status</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </header>
+                </div>
+            </div>
+
+            <!-- Main Wrapper -->
+            <div id="main-wrapper">
+                <div class="wrapper style2">
+                    <div class="inner">
+                        <div class="container">
+                            <div id="content">
+                                <article>
+                                    <header class="major">
+                                        <h2>Check Job Status</h2>
+                                    </header>
+
+                                    <form id="jobStatusForm">
+                                        <div class="row gtr-50">
+                                            <div class="col-6 col-12-small">
+                                                <input type="text" name="quoteRef" id="quoteRef" placeholder="Quote Reference Number" required />
+                                            </div>
+                                            <div class="col-6 col-12-small">
+                                                <input type="email" name="email" id="email" placeholder="Email" required />
+                                            </div>
+                                            <div class="col-12">
+                                                <ul class="actions">
+                                                    <li><input type="submit" class="button icon solid fa-search" value="Check Status" /></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    <div id="jobInfo" aria-live="polite">
+                                        <h3>Job Information</h3>
+                                        <p><strong>Customer Name:</strong> <span id="customerName"></span></p>
+                                        <p><strong>Job Address:</strong> <span id="jobAddress"></span></p>
+                                        <p><strong>Type of Job:</strong> <span id="jobType"></span></p>
+                                        <p><strong>Status:</strong> <span id="jobStatus"></span></p>
+                                    </div>
+
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Wrapper -->
+            <div id="footer-wrapper">
+                <footer id="footer" class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <section id="get-in-touch">
+                                <h2>Get in touch</h2>
+                                <div class="row">
+                                    <div class="col-6 col-12-small">
+                                        <dl class="contact">
+                                            <dt><a href="https://www.facebook.com/p/Blue-rhino-fence-100040198507674/">Facebook</a></dt>
+                                            <dt>Email:</dt>
+                                            <dd><a href="mailto:Bluerhinofence@icloud.com">Bluerhinofence@icloud.com</a></dd>
+                                        </dl>
+                                    </div>
+                                    <div class="col-6 col-12-small">
+                                        <dl class="contact">
+                                            <dt>Address</dt>
+                                            <dd>Houston, TX<br />USA</dd>
+                                            <dt>Phone</dt>
+                                            <dd>(281) 914-0946</dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div id="copyright">
+                                <ul class="menu">
+                                    <li>&copy; Blue Rhyno Fencing. All rights reserved</li>
+                                    <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/js/jquery.dropotron.min.js"></script>
+        <script src="assets/js/browser.min.js"></script>
+        <script src="assets/js/breakpoints.min.js"></script>
+        <script src="assets/js/util.js"></script>
+        <script src="assets/js/main.js"></script>
+        <script src="assets/js/jobStatus.js"></script>
+    </body>
+</html>

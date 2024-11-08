@@ -1,0 +1,73 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Update Quote - Blue Rhyno</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+<body class="no-sidebar is-preload">
+    <div id="header-wrapper">
+        <div class="container">
+            <header id="header">
+                <div class="inner">
+                    <h1><a href="index.html" id="logo">Blue Rhyno</a></h1>
+                    <nav id="nav">
+                        <ul>
+                            <li><a href="index.html">Home</a></li>
+                            <li><a href="showquotes.html">Back</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <div class="container1">
+        <div id="quote-details" class="quote-section">
+            <h2>Quote Details</h2>
+            <!-- Current quote details will be populated here -->
+        </div>
+
+        <div class="form-section">
+            <h2>Update Quote</h2>
+            <form id="update-quote-form">
+                <div class="form-group">
+                    <label for="dueDate">Due Date:</label>
+                    <input type="date" id="dueDate" name="dueDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalAmount">Total Amount:</label>
+                    <input type="number" id="totalAmount" name="totalAmount" step="0.01">
+                </div>
+
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" required>
+                        <option value="Pending">Pending</option>
+                        <option value="Waiting For Customer Approval">Waiting For Customer Approval</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+
+                <p id="amount-warning" style="display: none; color: red;">
+                    Total amount is required when marking as Completed
+                </p>
+
+                <button type="submit" class="button">Update Quote</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/jquery.dropotron.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/update_quote.js"></script>
+</body>
+</html>
