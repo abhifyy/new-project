@@ -173,7 +173,7 @@
         let selectedquoteId = null;
     
         // Fetch quote data from backend
-        fetch('http://localhost:3001/quotes/')
+        fetch('http://localhost:3001/api/quotes/')
             .then(response => response.json())
             .then(data => {
                 quotes = data;

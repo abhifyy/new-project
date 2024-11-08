@@ -1,16 +1,19 @@
+require('dotenv').config({path: '../.env'});
 const db = require('../config/db');
-
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || '');
 // GET all quotes
-exports.getAllQuotes = (req, res) => {
-  const sql = 'SELECT * FROM Quotes';
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('Error fetching quotes:', err);
-      return res.status(500).send('Error fetching quotes');
-    }
+exports.getAllQuotes = async (req, res) => {
+  try {
+    // Using async/await correctly
+    const [results] = await db.query('SELECT * FROM Quotes');
     res.json(results);
-  });
+  } catch (err) {
+    console.error('Error fetching quotes:', err);
+    res.status(500).send('Error fetching quotes');
+  }
 };
+
+
 
 // GET a specific quote by QuoteID
 exports.getQuoteById = (req, res) => {

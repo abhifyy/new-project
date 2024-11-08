@@ -122,36 +122,43 @@
             
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
-
-            // Send login data to the server
-            const response = await fetch("http://localhost:3001/passwords/admin", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ username, password }),
-            });
-
-            const result = await response.json();
-            if (result.success) {
-                window.location.href = "admin_dashboard.html"; // Redirect on successful login
-            } else {
-                document.getElementById("error-message").innerText = result.message;
+            
+            try {
+                const response = await fetch("http://localhost:3001/api/passwords/admin", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password }),
+                });
+        
+                const result = await response.json();
+                if (result.success) {
+                    // Store admin type in sessionStorage if needed
+                    sessionStorage.setItem('adminType', result.adminType);
+                    window.location.href = "admin_dashboard.html";
+                } else {
+                    document.getElementById("error-message").innerText = result.message;
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                document.getElementById("error-message").innerText = 
+                    "An error occurred while trying to log in. Please try again.";
             }
         });
-
-        // Function to toggle password visibility
+        
         function togglePassword() {
             const passwordInput = document.getElementById("password");
             const eyeIcon = document.getElementById("togglePassword");
             if (passwordInput.type === "password") {
                 passwordInput.type = "text";
-                eyeIcon.textContent = "🚫"; // Change icon to indicate visible
+                eyeIcon.textContent = "🚫";
             } else {
                 passwordInput.type = "password";
-                eyeIcon.textContent = "👁️"; // Change icon back to hidden
+                eyeIcon.textContent = "👁️";
             }
         }
-    </script>
+        </script>
 </body>
 </html>

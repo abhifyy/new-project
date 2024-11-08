@@ -118,7 +118,7 @@
 
     // Get the InvoiceID from the URL
     const invoiceId = getQueryParam('invoiceId'); 
-    fetch(`http://localhost:3001/invoices/${invoiceId}`)
+    fetch(`http://localhost:3001/api/invoices/${invoiceId}`)
         .then(response => response.json())
         .then(invoice => {
             const invoiceDetails = document.getElementById('invoice-details');
@@ -147,7 +147,7 @@
             PaymentMethod: document.getElementById('payment-method').value
         };
 
-        fetch(`http://localhost:3001/invoices/${invoiceId}`, {
+        fetch(`http://localhost:3001/api/invoices/${invoiceId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

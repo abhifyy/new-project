@@ -1,18 +1,14 @@
-const mysql = require('mysql2');
+// db.js
+const mysql = require('mysql2/promise'); // Use the promise-based version
 
-const db = mysql.createConnection({
+const pool = mysql.createPool({
   host: 'bluerynodb-restored.cj02o08agyaa.us-east-2.rds.amazonaws.com',
   user: 'admin',
   password: 'admin123',
   database: 'BlueRynoProjectDB',
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-db.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-    process.exit(1);
-  }
-  console.log('Database connected');
-});
-
-module.exports = db;
+module.exports = pool; // Export the promise-based pool directly

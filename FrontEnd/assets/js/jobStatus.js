@@ -31,3 +31,16 @@ document.getElementById('jobStatusForm').addEventListener('submit', function(e) 
         document.getElementById('jobInfo').style.display = 'none';
     });
 });
+
+$(document).ready(function() {
+    $("#jobStatusForm").submit(function(e) {
+        e.preventDefault();
+
+        // Example job info for demo purposes
+        $("#customerName").text("John Doe");
+        $("#jobAddress").text("123 Main St, Anytown, USA");
+        $("#jobType").text("Wood Fence Installation");
+        $("#jobStatus").text("Active");
+        $("#jobInfo").show();
+    });
+});

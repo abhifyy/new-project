@@ -1,4 +1,3 @@
-<?php include('header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,23 +98,5 @@
             <button onclick="window.location.href='completed_jobs.html'">Completed Jobs</button>
         </div>
     </div>
-    <script>
-    function resetTimer() {
-        clearTimeout(timer);
-        timer = setTimeout(logout, 3000); // Change to 300000 for 5 minutes
-    }
-
-    function logout() {
-        alert("Session expired due to inactivity. Logging out.");
-        window.location.href = 'login.html'; // Replace with actual login page URL
-    }
-
-    // Monitor user activity
-    window.onload = resetTimer;
-    document.onmousemove = resetTimer;
-    document.onkeypress = resetTimer;
-    document.onclick = resetTimer;
-    document.onscroll = resetTimer;
-</script>
 </body>
 </html>

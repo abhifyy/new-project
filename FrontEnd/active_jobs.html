@@ -189,7 +189,7 @@
         let selectedInvoiceId = null;
     
         // Fetch invoice data from backend
-        fetch('http://localhost:3001/invoices/new')
+        fetch('http://localhost:3001/api/invoices/new')
             .then(response => response.json())
             .then(data => {
                 invoices = data;
