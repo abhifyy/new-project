@@ -1,35 +1,79 @@
 require('dotenv').config({path: '../.env'});
 const db = require('../config/db');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY || '');
-// GET all quotes
+
+// GET: Fetch All Quotes
 exports.getAllQuotes = async (req, res) => {
+  // SQL query to fetch quote details and check due dates
+  const sql = `
+    SELECT  
+    q.QuoteID, 
+    CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName, 
+    CONCAT(c.Address, ', ', c.City, ', ', c.State, ', ', c.ZipCode) AS Address,
+    q.QuoteDate,
+    q.TotalAmount,
+    q.Status 
+  FROM Quotes q 
+  JOIN Customer c ON q.CustomerID = c.CustomerID 
+  LEFT JOIN Invoice i ON q.QuoteID = i.QuoteID
+  WHERE i.InvoiceID IS NULL;
+  `;
+
   try {
-    // Using async/await correctly
-    const [results] = await db.query('SELECT * FROM Quotes');
-    res.json(results);
-  } catch (err) {
-    console.error('Error fetching quotes:', err);
-    res.status(500).send('Error fetching quotes');
+    // Execute the SQL query
+    const [results] = await db.query(sql);
+
+    // Check if any results were found
+    if (results.length === 0) {
+      return res.status(404).send('No quotes found.');
+    }
+
+    // Return the results as JSON
+    res.status(200).json(results);
+  } catch (error) {
+    console.error('Error fetching quotes:', error.message);
+    res.status(500).send('Error fetching quotes.');
   }
 };
 
 
-
 // GET a specific quote by QuoteID
-exports.getQuoteById = (req, res) => {
+exports.getQuoteById = async (req, res) => {
   const quoteId = req.params.id;
-  const sql = 'SELECT * FROM Quotes WHERE QuoteID = ?';
-  db.query(sql, [quoteId], (err, result) => {
-    if (err) {
-      console.error('Error fetching quote:', err);
-      return res.status(500).send('Error fetching quote');
+  const sql = `
+    SELECT  
+      q.QuoteID, 
+      q.QuoteDate,
+      q.TotalAmount,
+      q.Status,
+      CONCAT(c.FirstName, ' ', c.LastName) AS CustomerName, 
+      CONCAT(c.Address, ', ', c.City, ', ', c.State, ', ', c.ZipCode) AS Address,
+      q.EmailSent,
+      q.Completed,
+      q.MaterialType,
+      q.FenceLength,
+      q.HOAApproval,
+      q.CityApproval,
+      q.PhotoPaths
+    FROM Quotes q 
+    JOIN Customer c ON q.CustomerID = c.CustomerID  
+    WHERE q.QuoteID = ?`;
+
+  try {
+    const [results] = await db.query(sql, [quoteId]);
+
+    if (results.length === 0) {
+      return res.status(404).send('No quotes found.');
     }
-    if (result.length === 0) {
-      return res.status(404).send('Quote not found');
-    }
-    res.json(result[0]);
-  });
+
+    res.status(200).json(results[0]);
+  } catch (error) {
+    console.error('Error fetching quote:', error.message);
+    res.status(500).send('Error fetching quote.');
+  }
 };
+
+
 
 // POST a new quote
 exports.createQuote = async (req, res) => {
@@ -219,26 +263,24 @@ exports.createQuote = async (req, res) => {
     }
 };
 
-// PUT to update a quote (e.g., status, payment info)
 exports.updateQuote = (req, res) => {
   const quoteId = req.params.id;
   const { Status, TotalAmount } = req.body;
 
-  // Ensure required fields are present
   if (!TotalAmount || !Status) {
-    return res.status(400).send('Missing required fields');
+      return res.status(400).send('Missing required fields');
   }
 
   const sql = 'UPDATE Quotes SET `Status` = ?, `TotalAmount` = ? WHERE QuoteID = ?';
   db.query(sql, [Status, TotalAmount, quoteId], (err, result) => {
-    if (err) {
-      console.error('Error updating quote:', err);
-      return res.status(500).send('Error updating quote');
-    }
-    if (result.affectedRows === 0) {
-      return res.status(404).send('Quote not found');
-    }
-    res.send('Quote updated');
+      if (err) {
+          console.error('Error updating quote:', err);
+          return res.status(500).send('Error updating quote');
+      }
+      if (result.affectedRows === 0) {
+          return res.status(404).send('Quote not found');
+      }
+      res.status(200).send('Quote updated');
   });
 };
 

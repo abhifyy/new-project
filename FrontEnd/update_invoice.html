@@ -86,24 +86,10 @@
             <label for="due-date">Due Date:</label>
             <input type="date" id="due-date" required />
 
-            <label for="paid-amount">Paid Amount:</label>
-            <input type="number" id="paid-amount" required />
+            <label for="total-amount">Total Amount:</label>
+            <input type="number" id="total-amount" required />
 
-            <label for="payment-status">Payment Status:</label>
-            <select id="payment-status" required>
-                <option value="Paid">Paid</option>
-                <option value="Partial Payment">Pending</option>
-                <option value="Pending">Paid</option>
-                <option value="Unpaid">Pending</option>
-            </select>
-
-            <label for="payment-method">Payment Method:</label>
-            <select id="payment-method" required>
-                <option value="Bank Transfer">Bank</option>
-                <option value="Credit Card">Credit Card</option>
-                <option value="Cash">Cash</option>
-                <option value="Check">Check</option>
-            </select>
+            
 
             <button type="submit">Update Invoice</button>
         </form>
@@ -119,55 +105,49 @@
     // Get the InvoiceID from the URL
     const invoiceId = getQueryParam('invoiceId'); 
     fetch(`http://localhost:3001/api/invoices/${invoiceId}`)
-        .then(response => response.json())
-        .then(invoice => {
-            const invoiceDetails = document.getElementById('invoice-details');
-            invoiceDetails.innerHTML = `
-                <p><strong>Invoice ID:</strong> ${invoice.InvoiceID}</p>
-                <p><strong>Quote ID:</strong> ${invoice.QuoteID}</p>
-                <p><strong>Invoice Date:</strong> ${new Date(invoice.InvoiceDate).toLocaleDateString()}</p>
-                <p><strong>Due Date:</strong> ${new Date(invoice.DueDate).toLocaleDateString()}</p>
-                <p><strong>Total Amount:</strong> ${invoice.TotalAmount}</p>
-                <p><strong>Paid Amount:</strong> ${invoice.PaidAmount}</p>
-                <p><strong>Payment Status:</strong> ${invoice.PaymentStatus}</p>
-                <p><strong>Payment Method:</strong> ${invoice.PaymentMethod}</p>
-            `;
-        })
+            .then(response => response.json())
+            .then(invoice => {
+                const invoiceDetails = document.getElementById('invoice-details');
+                invoiceDetails.innerHTML = `
+                    <p><strong>Invoice ID:</strong> ${invoice.InvoiceID}</p>
+                    <p><strong>Quote ID:</strong> ${invoice.QuoteID}</p>
+                    <p><strong>Invoice Date:</strong> ${new Date(invoice.InvoiceDate).toLocaleDateString()}</p>
+                    <p><strong>Due Date:</strong> ${new Date(invoice.DueDate).toLocaleDateString()}</p>
+                    <p><strong>Total Amount:</strong> ${invoice.TotalAmount}</p>
+                `;
+            })
         .catch(error => {
             console.error('Error fetching invoice:', error);
         });
 
-    document.getElementById('update-invoice-form').addEventListener('submit', function(event) {
-        event.preventDefault();
+        document.getElementById('update-invoice-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        const updatedInvoice = {
-            DueDate: document.getElementById('due-date').value,
-            PaidAmount: document.getElementById('paid-amount').value,
-            PaymentStatus: document.getElementById('payment-status').value,
-            PaymentMethod: document.getElementById('payment-method').value
-        };
+            const updatedInvoice = {
+                DueDate: document.getElementById('due-date').value,
+                TotalAmount: document.getElementById('total-amount').value
+            };
 
-        fetch(`http://localhost:3001/api/invoices/${invoiceId}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(updatedInvoice)
-        })
-        .then(response => {
-            if (response.ok) {
-                alert('Invoice updated successfully!');
-                window.location.href = 'active_jobs.html'; // Redirect to active jobs page
-            } else {
-                alert('Error updating invoice. Please try again.');
-            }
-        })
-        .catch(error => {
-            console.error('Error updating invoice:', error);
+            fetch(`http://localhost:3001/api/invoices/${invoiceId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updatedInvoice)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Invoice updated successfully!');
+                    window.location.href = 'active_jobs.html'; // Redirect to active jobs page
+                } else {
+                    alert('Error updating invoice. Please try again.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating invoice:', error);
+            });
         });
-    });
-</script>
+    </script>
 
 </body>
 </html>
-

@@ -64,94 +64,95 @@
                         <div class="inner">
                             <div class="container">
                                 <div id="content">
-
-                                    <!-- Content -->
-                                        <article>
-                                            <header class="major">
-                                                <h2>Get a Quote</h2>
-                                            </header>
-
-                                            <form id="quoteForm">
-                                                <div class="row gtr-50">
-                                                    <div class="col-6 col-12-small">
-                                                        <input type="text" name="firstName" id="firstName" placeholder="First Name" required />
-                                                    </div>
-                                                    <div class="col-6 col-12-small">
-                                                        <input type="text" name="lastName" id="lastName" placeholder="Last Name" required />
-                                                    </div>
-                                                    <div class="col-6 col-12-small">
-                                                        <input type="text" name="phone" id="phone" placeholder="Phone Number" required />
-                                                    </div>
-                                                    <div class="col-6 col-12-small">
-                                                        <input type="email" name="email" id="email" placeholder="Email" required />
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <input type="text" name="address1" id="address1" placeholder="Address 1" required />
-													</div>   
-                                                    <div class="col-4 col-12-small">
-                                                        <input type="text" name="city" id="city" placeholder="City" required />
-                                                    </div>
-                                                    <div class="col-4 col-12-small">
-                                                        <input type="text" name="state" id="state" placeholder="State" required />
-                                                    </div>
-                                                    <div class="col-4 col-12-small">
-                                                        <input type="text" name="zipCode" id="zipCode" placeholder="Zip Code" required />
-                                                    </div>
-                                                    <div class="col-6 col-12-small">
-                                                        <label>Do you have HOA approval?</label>
-                                                        <div class="button-group">
-                                                            <input type="radio" id="hoa-yes" name="hoaApproval" value="Yes" required>
-                                                            <label for="hoa-yes">Yes</label>
-                                                            <input type="radio" id="hoa-no" name="hoaApproval" value="No" required>
-                                                            <label for="hoa-no">No</label>
-                                                            <input type="radio" id="hoa-na" name="hoaApproval" value="N/A" required>
-                                                            <label for="hoa-na">N/A</label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-6 col-12-small">
-                                                        <label>Do you have City approval?</label>
-                                                        <div class="button-group">
-                                                            <input type="radio" id="city-yes" name="cityApproval" value="Yes" required>
-                                                            <label for="city-yes">Yes</label>
-                                                            <input type="radio" id="city-no" name="cityApproval" value="No" required>
-                                                            <label for="city-no">No</label>
-                                                            <input type="radio" id="city-na" name="cityApproval" value="N/A" required>
-                                                            <label for="city-na">N/A</label>
-                                                        </div>
-                                                    </div>
-													<div class="col-12">
-														<div class="row gtr-50">
-															<div class="col-4 col-12-small">
-																<input type="file" name="photos" id="photos" multiple required />
-																<label for="photos">Upload Photos of the Plot</label>
-															</div>
-															<div class="col-4 col-12-small">
-																<select name="material" id="material" required>
-																	<option value="">- Choose the Type of Material -</option>
-																	<option value="wood">Wood</option>
-																	<option value="vinyl">Vinyl</option>
-																	<option value="metal">Metal</option>
-																	<option value="chainLink">Chain Link</option>
-																	<option value="brick">Brick</option>
-																	<option value="barbed">Barbed</option>
-																</select>
-															</div>
-															<div class="col-4 col-12-small">
-																<input type="number" name="fenceLength" id="fenceLength" placeholder="Approximate Length of the Fence (in meters)" min="1" step="1" required />
-															</div>
-														</div>
-													</div>
-													<div class="col-12" style="text-align: center;">
-														<ul class="actions" style="display: inline-block;">
-															<li><input type="button" class="button icon solid fa-envelope" value="Ask for a Quote" onclick="submitForm()" /></li>
-															<li><input type="reset" class="button alt icon solid fa-undo" value="Reset Form" /></li>
-														</ul>
-													</div>
+                                    <article>
+                                        <header class="major">
+                                            <h2>Get a Quote</h2>
+                                        </header>
+                                
+                                        <form id="quoteForm">
+                                            <div class="row gtr-50">
+                                                <div class="col-6 col-12-small">
+                                                    <input type="text" name="firstName" id="firstName" placeholder="First Name" required />
                                                 </div>
-                                            </form>
-
-                                        </article>
-
+                                                <div class="col-6 col-12-small">
+                                                    <input type="text" name="lastName" id="lastName" placeholder="Last Name" required />
+                                                </div>
+                                                <div class="col-6 col-12-small">
+                                                    <input type="text" name="phone" id="phone" placeholder="Phone Number" required />
+                                                </div>
+                                                <div class="col-6 col-12-small">
+                                                    <input type="email" name="email" id="email" placeholder="Email" required />
+                                                </div>
+                                                <div class="col-12">
+                                                    <input type="text" name="address1" id="address1" placeholder="Address 1" required />
+                                                </div>
+                                                <div class="col-12">
+                                                    <input type="text" name="address2" id="address2" placeholder="Address 2" />
+                                                </div>
+                                                <div class="col-4 col-12-small">
+                                                    <input type="text" name="city" id="city" placeholder="City" required />
+                                                </div>
+                                                <div class="col-4 col-12-small">
+                                                    <input type="text" name="state" id="state" placeholder="State" required />
+                                                </div>
+                                                <div class="col-4 col-12-small">
+                                                    <input type="text" name="zipcode" id="zipcode" placeholder="Zip Code" required />
+                                                </div>
+                                
+                                                <div class="col-6 col-12-small">
+                                                    <label>Do you have HOA approval?</label>
+                                                    <div class="button-group">
+                                                        <input type="radio" id="hoa-yes" name="hoaApproval" value="Yes" required>
+                                                        <label for="hoa-yes">Yes</label>
+                                                        <input type="radio" id="hoa-no" name="hoaApproval" value="No" required>
+                                                        <label for="hoa-no">No</label>
+                                                        <input type="radio" id="hoa-na" name="hoaApproval" value="N/A" required>
+                                                        <label for="hoa-na">N/A</label>
+                                                    </div>
+                                                </div>
+                                
+                                                <div class="col-6 col-12-small">
+                                                    <label>Do you have City approval?</label>
+                                                    <div class="button-group">
+                                                        <input type="radio" id="city-yes" name="cityApproval" value="Yes" required>
+                                                        <label for="city-yes">Yes</label>
+                                                        <input type="radio" id="city-no" name="cityApproval" value="No" required>
+                                                        <label for="city-no">No</label>
+                                                        <input type="radio" id="city-na" name="cityApproval" value="N/A" required>
+                                                        <label for="city-na">N/A</label>
+                                                    </div>
+                                                </div>
+                                
+                                                <div class="col-12">
+                                                    <input type="file" name="photos" id="photos" multiple required />
+                                                    <label for="photos">Upload Photos of the Plot</label>
+                                                </div>
+                                
+                                                <div class="col-12">
+                                                    <select name="material" id="material" required>
+                                                        <option value="">- Choose the Type of Material -</option>
+                                                        <option value="wood">Wood</option>
+                                                        <option value="vinyl">Vinyl</option>
+                                                        <option value="metal">Metal</option>
+                                                        <option value="chainlink">Chain Link</option>
+                                                        <option value="brick">Brick</option>
+                                                        <option value="barbed">Barbed</option>
+                                                    </select>
+                                                </div>
+                                
+                                                <div class="col-12">
+                                                    <input type="number" name="fenceLength" id="fenceLength" placeholder="Approximate Length of the Fence (in meters)" min="1" step="1" required />
+                                                </div>
+                                
+                                                <div class="col-12">
+                                                    <ul class="actions">
+                                                        <li><input type="submit" class="button icon solid fa-envelope" value="Submit Quote Request" /></li>
+                                                        <li><input type="reset" class="button alt icon solid fa-undo" value="Reset Form" /></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </article>
                                 </div>
                             </div>
                         </div>
@@ -219,6 +220,7 @@
         <script src="assets/js/breakpoints.min.js"></script>
         <script src="assets/js/util.js"></script>
         <script src="assets/js/main.js"></script>
+        <script src="assets/js/quoteForm.js"></script>
         <script>
             function submitForm() {
                 const form = document.getElementById('quoteForm');

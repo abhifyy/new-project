@@ -154,6 +154,7 @@
                     <th onclick="sortTable(4)">Quote Date</th>
                     <th onclick="sortTable(6)">Total Amount</th>
                     <th onclick="sortTable(8)">Status</th>
+                    <th>Create Invoice</th> <!-- New column header -->
                 </tr>
             </thead>
             <tbody id="quote-table-body">
@@ -202,6 +203,9 @@
                     <td>${new Date(quote.QuoteDate).toLocaleDateString()}</td>
                     <td>${quote.TotalAmount}</td>
                     <td>${quote.Status}</td>
+                   <td>
+                <button class="approve-quote-btn" onclick="approveQuote(${quote.QuoteID},${quote.TotalAmount})">Approve</button>
+            </td>
                 `;
                 tableBody.appendChild(row);
             });
@@ -274,6 +278,40 @@ function selectquote(quoteId, element) {
             // Redirect to a details page or show a modal with quote details
             window.location.href = `quote.html?quoteId=${quoteId}`;
         }
+
+        function approveQuote(quoteId, totalAmount) {
+            // Prepare invoice details
+            const invoiceData = {
+                QuoteID: quoteId,
+                TotalAmount: totalAmount,
+                InvoiceDate: new Date().toISOString().split('T')[0], // Get current date in YYYY-MM-DD format
+                DueDate: new Date(new Date().setDate(new Date().getDate() + 30)).toISOString().split('T')[0], // Set due date 30 days from today
+                PaymentStatus: "Pending",
+            };
+        
+            // Send POST request to create an invoice
+            fetch('http://localhost:3001/api/invoices/new', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(invoiceData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Invoice created successfully!');
+                    window.location.href = 'showquotes.html'; // Adjust the redirection URL as needed
+                } else {
+                    alert(`Error creating invoice: ${data.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('Error creating invoice:', error);
+                alert('An unexpected error occurred while creating the invoice.');
+            });
+        }
+        
     </script>
     </body>
     </html>

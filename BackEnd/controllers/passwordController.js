@@ -75,7 +75,7 @@ exports.adminLogin = async (req, res) => {
     const { username, password } = req.body;
     
     try {
-        // Attempt Employee login
+        // First try Employee table login
         const [employees] = await db.query(
             'SELECT * FROM Employee WHERE role = "admin" AND email = ?',
             [username]
@@ -86,6 +86,7 @@ exports.adminLogin = async (req, res) => {
             const expectedPassword = `${employee.name}@${employee.phone_number.slice(-4)}`;
 
             if (password === expectedPassword) {
+                // Set session data for employee admin
                 req.session.isAdmin = true;
                 req.session.adminType = 'employee';
                 req.session.adminId = employee.id;
@@ -99,15 +100,16 @@ exports.adminLogin = async (req, res) => {
             }
         }
 
-        // Attempt Customer login
+        // If employee login fails, try Passwords table
         const [customers] = await db.query(
             'SELECT c.*, p.PasswordHash FROM Customers c ' +
             'JOIN Passwords p ON c.CustomerID = p.CustomerID ' +
-            'WHERE c.email = ? AND p.PasswordHash = ?',
+            'WHERE c.CustomerID = ? AND p.PasswordHash = ?',
             [username, password]
         );
 
         if (customers.length > 0) {
+            // Set session data for customer admin
             req.session.isAdmin = true;
             req.session.adminType = 'customer';
             req.session.customerId = customers[0].CustomerID;
@@ -127,14 +129,13 @@ exports.adminLogin = async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Login error:', error.message || error);
+        console.error('Login error:', error);
         res.status(500).json({
             success: false,
-            message: `Server error during login: ${error.message || error}`
+            message: 'Server error during login'
         });
     }
 };
-
 
 // Add logout functionality
 exports.logout = (req, res) => {

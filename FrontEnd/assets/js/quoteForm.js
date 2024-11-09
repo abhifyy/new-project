@@ -1,13 +1,8 @@
-// Add this to a new file: assets/js/quoteForm.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const quoteForm = document.getElementById('quoteForm');
     
     quoteForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
-        // Create FormData object
-        const formData = new FormData(quoteForm);
         
         try {
             // Show loading state
@@ -15,6 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const originalButtonText = submitButton.value;
             submitButton.value = 'Sending...';
             submitButton.disabled = true;
+
+            // Create FormData object
+            const formData = new FormData(quoteForm);
 
             // Handle file uploads
             const photoFiles = document.getElementById('photos').files;
@@ -40,16 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Send the form data to the backend
-            const response = await fetch('/api/quotes', {
+            const response = await fetch('http://localhost:3001/api/quotes', {
                 method: 'POST',
                 body: payload
             });
 
-            const result = await response.json();
-
             if (!response.ok) {
+                const result = await response.json();
                 throw new Error(result.message || 'Failed to submit quote request');
             }
+
+            const result = await response.json();
 
             // Show success message
             alert('Quote request submitted successfully! You will receive a confirmation email shortly.');
@@ -65,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Optional: Add client-side validation for phone numbers
+    // Phone number formatting
     const phoneInput = document.getElementById('phone');
     phoneInput.addEventListener('input', function(e) {
         let cleaned = e.target.value.replace(/\D/g, '');

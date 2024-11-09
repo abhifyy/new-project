@@ -170,6 +170,8 @@
                     <th onclick="sortTable(7)">Paid Amount</th>
                     <th onclick="sortTable(8)">Payment Status</th>
                     <th onclick="sortTable(9)">Payment Method</th>
+                    <th onclick="sortTable(9)">Payment Link</th>
+
                 </tr>
             </thead>
             <tbody id="invoice-table-body">
@@ -221,6 +223,7 @@
                     <td>${invoice.PaidAmount}</td>
                     <td>${invoice.PaymentStatus}</td>
                     <td>${invoice.PaymentMethod}</td>
+                    <td><button onclick="openPaymentLink(${invoice.InvoiceID})">Link</button></td>
                 `;
                 tableBody.appendChild(row);
             });

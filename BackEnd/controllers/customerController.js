@@ -1,15 +1,15 @@
 const db = require('../config/db');
 
-// GET all customers
-exports.getAllCustomers = (req, res) => {
-  const sql = 'SELECT * FROM Customer';
-  db.query(sql, (err, results) => {
-    if (err) {
-      console.error('Error fetching customers:', err);
-      return res.status(500).send('Error fetching customers');
-    }
-    res.json(results);
-  });
+exports.getAllCustomers = async (req, res) => {
+  try {
+      const [customers] = await db.query(
+          'SELECT CustomerID, FirstName, LastName FROM Customer'
+      );
+      res.json(customers);
+  } catch (error) {
+      console.error('Error fetching customers:', error);
+      res.status(500).json({ message: 'Failed to fetch customers' });
+  }
 };
 
 // GET a specific customer by CustomerID

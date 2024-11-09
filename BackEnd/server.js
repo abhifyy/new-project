@@ -1,15 +1,5 @@
 // Import required modules
 const db = require('./config/db');
-
-(async () => {
-  try {
-    const [rows] = await db.query('SELECT 1');
-    console.log('Database connection test successful:', rows);
-  } catch (err) {
-    console.error('Database connection test failed:', err);
-  }
-})();
-
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -28,13 +18,24 @@ const projectRoutes = require('./routes/projectRoutes');  // New Projects routes
 const paymentRoutes = require('./routes/paymentRoutes');  // New Payments routes
 const invoiceRoutes = require('./routes/invoiceRoutes');  // New Invoices routes
 const passwordRoutes = require('./routes/passwordRoutes'); // New Password routes
+const multer = require('multer');
+const fs = require('fs');
+const uploadDir = path.join(__dirname, 'uploads/quotes');
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Create an Express app
 const app = express();
 const port = 3001;  // Define the port
 
 // Middleware setup
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3001',
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../FrontEnd')));
 app.use('/assets', express.static(path.join(__dirname, '../FrontEnd/assets')));
@@ -70,12 +71,36 @@ app.get('/', (req, res) => {
   res.send('API is working');
 });
 
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      const uploadDir = path.join(__dirname, '../uploads/quotes');
+      // Create directory if it doesn't exist
+      if (!fs.existsSync(uploadDir)){
+          fs.mkdirSync(uploadDir, { recursive: true });
+      }
+      cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Make uploads directory accessible
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
+// Update body parser to handle larger payloads
+app.use(bodyParser.json({ limit: '50mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 // Routes
 app.use('/api/vendors', vendorRoutes);         // Vendor Routes
 app.use('/api/customers', customerRoutes);     // Customers routes
 app.use('/api/inventory', inventoryRoutes);    // Inventory routes
-app.use('/api/quotes', quotesRoutes);          // Quotes routes
+app.use('/api/quotes', upload.array('photos', 5), quotesRoutes);   // Quotes routes
 app.use('/api/feedback', feedbackRoutes);      // Feedback routes
 app.use('/api/projects', projectRoutes);       // New Projects routes
 app.use('/api/payments', paymentRoutes);       // New Payments routes
@@ -156,4 +181,4 @@ app.use((err, req, res, next) => {
 //});
  app.listen(port, () => {
    console.log(`Server is running on http://localhost:${port}`);
-   });
+ });

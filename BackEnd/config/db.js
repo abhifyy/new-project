@@ -1,5 +1,4 @@
-// db.js
-const mysql = require('mysql2/promise'); // Use the promise-based version
+const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
   host: 'bluerynodb-restored.cj02o08agyaa.us-east-2.rds.amazonaws.com',
@@ -11,4 +10,5 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-module.exports = pool; // Export the promise-based pool directly
+
+module.exports = pool;
