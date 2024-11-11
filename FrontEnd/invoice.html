@@ -96,7 +96,7 @@
     const invoiceId = getQueryParam('invoiceId');
 
     // Fetch invoice data from the backend using the InvoiceID
-    fetch(`http://localhost:3001/api/invoices/${invoiceId}`)
+    fetch(`https://new-project-backend-ex8f.onrender.com/api/invoices/${invoiceId}`)
         .then(response => response.json())
         .then(invoice => {
             const invoiceDetails = document.getElementById('invoice-details');
