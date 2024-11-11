@@ -27,7 +27,7 @@ if (!fs.existsSync(uploadDir)){
 
 // Create an Express app
 const app = express();
-const port = 3001;  // Define the port
+const port =process.env.PORT || 3001;  // Define the port
 
 // Middleware setup
 app.use(cors({
