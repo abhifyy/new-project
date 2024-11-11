@@ -191,7 +191,7 @@
         let selectedInvoiceId = null;
     
         // Fetch invoice data from backend
-        fetch('http://localhost:3001/api/invoices/old')
+        fetch('https://new-project-backend-ex8f.onrender.com/api/invoices/old')
             .then(response => response.json())
             .then(data => {
                 invoices = data;
