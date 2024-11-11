@@ -174,7 +174,7 @@
         let selectedquoteId = null;
     
         // Fetch quote data from backend
-        fetch('http://localhost:3001/api/quotes/')
+        fetch('https://new-project-backend-ex8f.onrender.com/api/quotes/')
             .then(response => response.json())
             .then(data => {
                 quotes = data;
@@ -290,7 +290,7 @@ function selectquote(quoteId, element) {
             };
         
             // Send POST request to create an invoice
-            fetch('http://localhost:3001/api/invoices/new', {
+            fetch('https://new-project-backend-ex8f.onrender.com/api/invoices/new', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
