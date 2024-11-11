@@ -92,7 +92,7 @@
         const quoteId = getQueryParam('quoteId');
 
         // Fetch quote data from the backend using the quoteID
-        fetch(`http://localhost:3001/api/quotes/${quoteId}`)
+        fetch(`https://new-project-backend-ex8f.onrender.com/api/quotes/${quoteId}`)
             .then(response => response.json())
             .then(quote => {
                 const quoteDetails = document.getElementById('quote-details');
