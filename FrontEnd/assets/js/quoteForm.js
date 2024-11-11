@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // Send the form data to the backend
-            const response = await fetch('http://localhost:3001/api/quotes', {
+            const response = await fetch('https://new-project-backend-ex8f.onrender.com/api/quotes', {
                 method: 'POST',
                 body: payload
             });
