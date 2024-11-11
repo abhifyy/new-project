@@ -110,7 +110,7 @@
         const quoteId = getQueryParam('quoteId'); 
     
         // Fetch the quote data using the QuoteID
-        fetch(`http://localhost:3001/api/quotes/${quoteId}`)
+        fetch(`https://new-project-backend-ex8f.onrender.com/api/quotes/${quoteId}`)
             .then(response => response.json())
             .then(quote => {
                 const invoiceDetails = document.getElementById('invoice-details'); // Get the invoice details element
@@ -138,7 +138,7 @@
             };
     
             // Send PUT request to update the quote
-            fetch(`http://localhost:3001/api/quotes/${quoteId}`, {
+            fetch(`https://new-project-backend-ex8f.onrender.com/api/quotes/${quoteId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
