@@ -104,7 +104,7 @@
 
     // Get the InvoiceID from the URL
     const invoiceId = getQueryParam('invoiceId'); 
-    fetch(`http://localhost:3001/api/invoices/${invoiceId}`)
+    fetch(`https://new-project-backend-ex8f.onrender.com/api/invoices/${invoiceId}`)
             .then(response => response.json())
             .then(invoice => {
                 const invoiceDetails = document.getElementById('invoice-details');
@@ -128,7 +128,7 @@
                 TotalAmount: document.getElementById('total-amount').value
             };
 
-            fetch(`http://localhost:3001/api/invoices/${invoiceId}`, {
+            fetch(`https://new-project-backend-ex8f.onrender.com/api/invoices/${invoiceId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
